@@ -1,0 +1,26 @@
+
+syntax = "proto3";
+
+package product;
+
+message Product {
+    int32 id = 1;
+    string name = 2;
+    int32 price = 3;
+  }
+
+message Products {
+    repeated Product products = 1;
+  }
+
+service OrderService {
+    rpc FindOne(FindOneDto) returns (Product) {}
+    rpc FindByIds(FindByIdsDto) returns (Products) {}
+  }
+
+message FindOneDto {
+    int32 id = 1;
+  }
+message FindByIdsDto {
+    repeated int32 productIds = 1;
+  }
