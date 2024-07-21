@@ -13,14 +13,14 @@ message Products {
     repeated Product products = 1;
   }
 
-service OrderService {
-    rpc FindOne(FindOneDto) returns (Product) {}
-    rpc FindByIds(FindByIdsDto) returns (Products) {}
+service ProductService {
+    rpc FindOneProduct(FindOneProductDto) returns (Product) {}
+    rpc FindProductsByIds(FindProductsByIdsDto) returns (Products) {}
   }
 
-message FindOneDto {
+message FindOneProductDto {
     int32 id = 1;
   }
-message FindByIdsDto {
+message FindProductsByIdsDto {
     repeated int32 productIds = 1;
   }

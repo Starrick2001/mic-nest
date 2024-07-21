@@ -1,10 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { OrderModule } from './order.module';
-import { ConfigService } from '@nestjs/config';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { join } from 'path';
+import { ORDER } from '@app/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(OrderModule);
-  const configService = app.get<ConfigService>(ConfigService);
-  await app.listen(+configService.get<string>('ORDER_APP_PORT'));
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    OrderModule,
+    {
+      transport: Transport.GRPC,
+      options: {
+        protoPath: join(__dirname, '..', 'proto', 'order.proto'),
+        package: ORDER,
+        url: 'localhost:5000',
+      },
+    },
+  );
+  await app.listen();
 }
 bootstrap();

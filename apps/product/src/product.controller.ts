@@ -1,12 +1,32 @@
 import { Controller, Get } from '@nestjs/common';
 import { ProductService } from './product.service';
+import {
+  FindOneProductDto,
+  FindProductsByIdsDto,
+  Product,
+  Products,
+  ProductServiceController,
+  ProductServiceControllerMethods,
+} from '@app/common';
+import { Observable } from 'rxjs';
 
 @Controller()
-export class ProductController {
+@ProductServiceControllerMethods()
+export class ProductController implements ProductServiceController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
   getHello(): string {
     return this.productService.getHello();
+  }
+  findOneProduct(
+    request: FindOneProductDto,
+  ): Promise<Product> | Observable<Product> | Product {
+    return this.productService.findOneProduct(request.id);
+  }
+  findProductsByIds(
+    request: FindProductsByIdsDto,
+  ): Promise<Products> | Observable<Products> | Products {
+    return this.productService.findProductsByIds(request.productIds);
   }
 }
