@@ -29,13 +29,13 @@ export interface FindProductsByIdsDto {
 export interface ProductServiceClient {
   findOneProduct(request: FindOneProductDto): Observable<Product>;
 
-  findProductsByIds(request: FindProductsByIdsDto): Observable<Products>;
+  findProductsByIds(request: FindProductsByIdsDto): Observable<Product>;
 }
 
 export interface ProductServiceController {
   findOneProduct(request: FindOneProductDto): Promise<Product> | Observable<Product> | Product;
 
-  findProductsByIds(request: FindProductsByIdsDto): Promise<Products> | Observable<Products> | Products;
+  findProductsByIds(request: FindProductsByIdsDto): Observable<Product>;
 }
 
 export function ProductServiceControllerMethods() {

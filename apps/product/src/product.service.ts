@@ -1,6 +1,7 @@
 import { Product, Products } from '@app/common';
 import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
+import { from, Observable } from 'rxjs';
 
 @Injectable()
 export class ProductService {
@@ -23,8 +24,8 @@ export class ProductService {
     return this.products.find((p) => p.id === id);
   }
 
-  findProductsByIds(ids: number[]): Products {
-    throw new RpcException('Product service error');
-    return { products: this.products.filter((p) => ids.includes(p.id)) };
+  findProductsByIds(ids: number[]): Observable<Product> {
+    // throw new RpcException('Product service error');
+    return from(this.products.filter((p) => ids.includes(p.id)));
   }
 }

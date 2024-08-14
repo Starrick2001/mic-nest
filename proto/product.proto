@@ -15,7 +15,7 @@ message Products {
 
 service ProductService {
     rpc FindOneProduct(FindOneProductDto) returns (Product) {}
-    rpc FindProductsByIds(FindProductsByIdsDto) returns (Products) {}
+    rpc FindProductsByIds(FindProductsByIdsDto) returns (stream Product) {}
   }
 
 message FindOneProductDto {

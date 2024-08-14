@@ -11,7 +11,17 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { catchError, mergeMap, Observable, of, throwError } from 'rxjs';
+import {
+  catchError,
+  concatAll,
+  concatMap,
+  from,
+  mergeMap,
+  Observable,
+  of,
+  throwError,
+  toArray,
+} from 'rxjs';
 
 @Injectable()
 export class OrderService implements OnModuleInit {
@@ -55,11 +65,13 @@ export class OrderService implements OnModuleInit {
     const order = this.orders.find((o) => o.id === id);
 
     const productIds = order.orderItems.orderItems.map((i) => i.productId);
-    return this.productService.findProductsByIds({ productIds }).pipe(
+    return from(this.productService.findProductsByIds({ productIds })).pipe(
+      mergeMap((v) => of(v)),
+      toArray(),
       mergeMap((products) => {
-        console.log({ ...order, products: products.products });
+        console.log({ products: products });
 
-        return of({ ...order, products: products.products });
+        return of({ ...order, products: products });
       }),
       catchError((err) => {
         console.log(err);

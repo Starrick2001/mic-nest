@@ -24,9 +24,7 @@ export class ProductController implements ProductServiceController {
   ): Promise<Product> | Observable<Product> | Product {
     return this.productService.findOneProduct(request.id);
   }
-  findProductsByIds(
-    request: FindProductsByIdsDto,
-  ): Promise<Products> | Observable<Products> | Products {
+  findProductsByIds(request: FindProductsByIdsDto): Observable<Product> {
     return this.productService.findProductsByIds(request.productIds);
   }
 }
